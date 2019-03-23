@@ -4,11 +4,11 @@ Tools designed for maintaining access to systems and proof-of-concept demonstrat
 
 |File| Description |
 |:---:| :---------------|
-|*bindshell.go* | bind shell example writtn in GoLang |
-|*bindshell.py*  | bind shell example writin in Python |
+|*bindshell.go* | bind shell example written in GoLang |
+|*bindshell.py*  | bind shell example writen in Python |
 |*cmdbot.py* | Python bot to exec commands via IRC C2 |
 |*filehider.tgz* | Linux kernel module for hiding files |
-|*halloween.py* | Python pre-pender VX example |
+|*halloween.py* | Python script appender VX injection PoC |
 |*icmp.py* | ICMP raw socket command execution |
 |*luna.tgz* | AX.25 APRS C2 implementation PoC (works via satellite) |
 |*magicroot.tgz* | Linux kernel module for "magic" root backdoor |
