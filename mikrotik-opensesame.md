@@ -1,6 +1,6 @@
-### Tutorial: Adding a Password Reset Function to MikroTik OS
+### Tutorial: Implementing a Password Reset Function for Persistent Access in MikroTik RouterOS
 
-In this tutorial, we will add a password reset function to MikroTik OS using a MikroTik script. We will create a script called "password reset" that sets the admin password to an empty string. We will then enable SNMP write access with the community string "opensesame" and verify that the SNMP service is running. Finally, we will use `snmpwalk` to query the scripts and `snmpset` to run the password reset script over SNMP.
+This tutorial demonstrates a post-exploitation technique to establish persistent access in MikroTik RouterOS by implementing a password reset function triggered via SNMP. We will create a MikroTik script named "password reset" to clear the admin password, enable SNMP write access using the community string "opensesame," and confirm the SNMP service is operational. The process concludes with using snmpwalk to query available scripts and snmpset to execute the password reset script remotely via SNMP, ensuring continued access post-authentication.
 
 #### Step 1: Create the Password Reset Script
 
@@ -93,8 +93,8 @@ In this tutorial, we will add a password reset function to MikroTik OS using a M
    snmpwalk -v 2c -c opensesame <router_ip_address> 1.3.6.1.4.1.14988.1.1.8
    ```
 
-   - This command will list the scripts available on the MikroTik router. Note that the MIB table
-   entries may differ.
+   - This command will list the scripts available on the MikroTik router. Note that the MIB table OID
+   values may differ.
 
    Output:
    ```
@@ -109,7 +109,7 @@ In this tutorial, we will add a password reset function to MikroTik OS using a M
    Ensure you are using the correct MIB table values for your script, from the snmpwalk command above. 
 
    ```sh
-   snmpset -c opensesame -v2c 192.168.99.1 1.3.6.1.4.1.14988.1.1.8.1.1.3.1 i 1
+   snmpset -c opensesame -v2c <router_ip_address> 1.3.6.1.4.1.14988.1.1.8.1.1.3.1 i 1
    ```
 
    Output:
@@ -121,9 +121,9 @@ In this tutorial, we will add a password reset function to MikroTik OS using a M
    - This command will execute the "password reset" script, setting the admin password to an empty string. 
    You can now authenticate to the router with `ssh admin@router_ip_address`.
 
-### Summary
+#### Summary
 
-By following these steps, you can add a password reset function to MikroTik OS using a MikroTik script. You will also enable SNMP write access, verify the SNMP service, query the scripts using `snmpwalk`, and run the script using `snmpset`. This guide assumes you have administrative access to the router and are familiar with basic networking concepts. If you encounter any issues, refer to the MikroTik documentation or seek assistance from MikroTik support or community forums.
+This tutorial outlines adding a password reset function to MikroTik RouterOS as a post-exploitation technique for maintaining persistent access after authentication. It involves creating a "password reset" script to clear the admin password, enabling SNMP write access with the "opensesame" community string, verifying SNMP functionality, querying scripts with snmpwalk, and executing the script via snmpset. Administrative access to the router and basic networking knowledge are required. 
 
 ---
 
