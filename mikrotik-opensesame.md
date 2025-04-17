@@ -115,3 +115,9 @@ In this tutorial, we will add a password reset function to MikroTik OS using a M
 ### Summary
 
 By following these steps, you can add a password reset function to MikroTik OS using a MikroTik script. You will also enable SNMP write access, verify the SNMP service, query the scripts using `snmpwalk`, and run the script using `snmpset`. This guide assumes you have administrative access to the router and are familiar with basic networking concepts. If you encounter any issues, refer to the MikroTik documentation or seek assistance from MikroTik support or community forums.
+
+---
+
+**Author**: Hacker Fantastic  
+**Date**: April 17, 2025  
+**Website**: [https://hacker.house](https://hacker.house)
