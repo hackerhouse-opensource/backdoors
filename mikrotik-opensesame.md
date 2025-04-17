@@ -28,9 +28,11 @@ In this tutorial, we will add a password reset function to MikroTik OS using a M
 
    Output:
    ```
+   [admin@MikroTik] > /system script add name="password reset" source="/user set admin password=\"\""
+   [admin@MikroTik] > /system script print
    Flags: I - invalid
     0   name="password reset" owner="admin" policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon
-     dont-require-permissions=no last-started=jan/01/2002 17:51:05 run-count=1 source=/user set admin password=""
+        dont-require-permissions=no run-count=0 source=/user set admin password=""
    ```
 
 #### Step 2: Enable SNMP Write Access
@@ -91,27 +93,29 @@ In this tutorial, we will add a password reset function to MikroTik OS using a M
    snmpwalk -v 2c -c opensesame <router_ip_address> 1.3.6.1.4.1.14988.1.1.8
    ```
 
-   - This command will list the scripts available on the MikroTik router.
+   - This command will list the scripts available on the MikroTik router. Note that the MIB table
+   entries may differ.
 
    Output:
    ```
-   SNMPv2-SMI::enterprises.14988.1.1.8.1.1.2.4 = STRING: "password reset"
-   SNMPv2-SMI::enterprises.14988.1.1.8.1.1.3.4 = INTEGER: 0
+   SNMPv2-SMI::enterprises.14988.1.1.8.1.1.2.1 = STRING: "password reset"
+   SNMPv2-SMI::enterprises.14988.1.1.8.1.1.3.1 = INTEGER: 0
    ```
 
 #### Step 4: Run the Script Using SNMP
 
 1. **Use `snmpset` to Run the Script**:
    - Use the `snmpset` command to run the "password reset" script. Replace `<router_ip_address>` with the IP address of your MikroTik router.
+   Ensure you are using the correct MIB table values for your script, from the snmpwalk command above. 
 
    ```sh
-   snmpset -v 2c -c opensesame <router_ip_address> 1.3.6.1.4.1.14988.1.1.8.1.1.3.3 i 1
+   snmpset -c opensesame -v2c 192.168.99.1 1.3.6.1.4.1.14988.1.1.8.1.1.3.1 i 1
    ```
 
    Output:
 
    ```
-   SNMPv2-SMI::enterprises.14988.1.1.8.1.1.3.4 = INTEGER: 1
+   SNMPv2-SMI::enterprises.14988.1.1.8.1.1.3.1 = INTEGER: 1
    ```
 
    - This command will execute the "password reset" script, setting the admin password to an empty string. 
