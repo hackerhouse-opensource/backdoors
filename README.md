@@ -13,6 +13,7 @@ Tools designed for maintaining access to systems and proof-of-concept demonstrat
 |*luna.tgz* | AX.25 APRS C2 implementation PoC (works via satellite) |
 |*magicroot.tgz* | Linux kernel module for "magic" root backdoor |
 |*MalwareTool.tgz* | PE executable dropper via embedded resource |
+|*mikrotik-opensesame.md* | Mikrotik "opensesame" SNMP backdoor | 
 |*Peony.zip* | Windows Defender Avbypass meterpreter harness |
 |*rubilyn-0.0.1.tar.gz* | OS-X Lion 64bit rootkit example code |
 |*SYSTEMservice.tgz* | Windows service persistent bind shell (SYSTEM) |
